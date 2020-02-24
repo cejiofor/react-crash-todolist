@@ -12,7 +12,7 @@ export class AddTodo extends Component {
     // onChange = (e) => this.setState({ title: e.target.value});
     
     //Submit todo item
-    onSumbit = (e) => {
+    onSubmit = (e) => {
         // Prevent submiting to file
         e.preventDefault();
         // Call props method to pass up component tree

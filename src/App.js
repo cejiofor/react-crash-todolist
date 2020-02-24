@@ -51,7 +51,6 @@ class App extends Component {
 
   //Add Todo item
   addTodo = (title) => {
-    alert('testing');
     // console.log(title);
     const newTodo = {
       id: uuid.v4(),
