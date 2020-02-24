@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
-// import logo from './logo.svg';
 import './App.css';
+import Header from './components/layout/Header';
 import Todos from './components/Todos';
 
 class App extends Component {
@@ -38,25 +38,21 @@ class App extends Component {
     });
   }
 
-  markDelete = (id) => {
+  delTodo = (id) => {
     this.setState({
-      todos: this.state.todos.map(
-        (todo) => {
-          if(todo.id === id){
-            console.log(id);
-          }
-          return todo;
-        }
-      )
-    });
+      // Use filter to return todos that don't match the given id
+      todos: this.state.todos.filter(
+        (todo) => (todo.id !== id))
+    }); // Do I need to use a spreader here?
+
   }
 
   render(){
     console.log(this.state.todos);
     return (
       <div className="App">
-        <h1>App</h1>
-        <Todos todos = {this.state.todos} toggleComplete = {this.toggleComplete} markDelete = {this.markDelete}/>
+        <Header/>
+        <Todos todos = {this.state.todos} toggleComplete = {this.toggleComplete} delTodo = {this.delTodo}/>
       </div>
     );
   }

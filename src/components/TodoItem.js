@@ -18,9 +18,9 @@ class TodoItem extends Component {
         // <div style = {{backgroundColor:'#f4f4f4'}, textColor}>
         <div style = {this.getStyle()}>
             <p>
-                <input type='checkbox' onChange={this.props.toggleComplete.bind(this, id)}/>
+                <input type='checkbox' onChange={this.props.toggleComplete.bind(this, id)}/> {' '}
                 {title}
-                <button type='button' className='del' onClick={this.props.markDelete.bind(this, id)}>X</button>
+                <button style = { btnStyle } type='button' className='del' onClick={this.props.delTodo.bind(this, id)}>X</button>
             </p>
             {/* <h3> {this.props.todo.id} </h3>
             <h3> {this.props.todo.title} </h3>
@@ -40,4 +40,15 @@ TodoItem.propTypes = {
 const textColor = {
     color: 'blue'
 };
+
+const btnStyle = {
+    background: '#ff0000',
+    color: '#fff',
+    border: 'none',
+    padding: '5px 9px',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    float: 'right'
+};
+
 export default TodoItem;
