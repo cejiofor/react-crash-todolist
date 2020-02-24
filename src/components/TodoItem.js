@@ -37,9 +37,9 @@ TodoItem.propTypes = {
 }
 
 // Style Variables
-const textColor = {
-    color: 'blue'
-};
+// const textColor = {
+//     color: 'blue'
+// };
 
 const btnStyle = {
     background: '#ff0000',
