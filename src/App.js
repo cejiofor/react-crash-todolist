@@ -6,11 +6,12 @@ import Todos from './components/Todos';
 import AddTodo from './components/AddTodo';
 import * as uuid  from 'uuid';
 import About from './components/pages/About';
+import axios from 'axios';
 
 
 class App extends Component {
   state = {
-    todos: [
+    hardCodedTodos: [
       {
         id: uuid.v4(),
         title: 'Take out the trash',
@@ -26,7 +27,16 @@ class App extends Component {
         title: 'Study CS',
         completed: true
       }
-    ]
+    ],
+    todos: []
+  }
+
+  // Use axios http library to get from server
+  componentDidMount(){
+    // axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10').then(res => console.log(res.data))
+    axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10').then(res => this.setState({todos: res.data}));
+    //.catch(console.log("Get Error"));
+
   }
 
   // Toggle completed task for a Todo Item
@@ -42,18 +52,15 @@ class App extends Component {
       ) 
     });
   };
-
-  // Delete Todo item
-  delTodo = (id) => {
-    this.setState({
-      // Use filter to return todos that don't match the given id
-      todos: [...this.state.todos.filter(
-        (todo) => (todo.id !== id))]
-    });
+  
+  //Add Todo item using post request
+  addTodo = (title) => {
+    axios.post('https://jsonplaceholder.typicode.com/todos/', { id: uuid.v4(),title, completed: false}).then(res => this.setState({todos: [...this.state.todos, res.data] })
+    );//.catch(console.log("Post Error"));
   };
 
   //Add Todo item
-  addTodo = (title) => {
+  addTodoNotPost = (title) => {
     // console.log(title);
     const newTodo = {
       id: uuid.v4(),
@@ -66,6 +73,22 @@ class App extends Component {
     })
   }
 
+  //Delete Todo from server
+  delTodo = (id) =>{
+    axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).then(res => this.setState({todos: [...this.state.todos.filter(
+      todo => (todo.id !== id)
+    )]}));
+  }
+  
+  // Delete Todo item
+  delTodoBasic = (id) => {
+    this.setState({
+      // Use filter to return todos that don't match the given id
+      todos: [...this.state.todos.filter(
+        (todo) => (todo.id !== id))]
+    });
+  };
+
   render(){
     // console.log(this.state.todos);
     return (
@@ -75,8 +98,8 @@ class App extends Component {
             <Header/>
             <Route exact path="/" render={props=> (
               <React.Fragment>
+                 <AddTodo addTodo={this.addTodo}/>
                 <Todos todos = {this.state.todos} toggleComplete = {this.toggleComplete} delTodo = {this.delTodo}/>
-                <AddTodo addTodo={this.addTodo}/>
               </React.Fragment>
             )} />
             <Route path="/about" component={About} />
